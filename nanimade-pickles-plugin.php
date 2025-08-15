@@ -67,6 +67,26 @@ class NanimadePicklesPlugin {
         
         // Add tracking to order emails
         add_action('woocommerce_email_order_details', array($this, 'add_tracking_to_email'), 10, 4);
+        
+        // Register Shiprocket settings
+        add_action('admin_init', array($this, 'register_shiprocket_settings'));
+    }
+    
+    /**
+     * Register Shiprocket settings
+     */
+    public function register_shiprocket_settings() {
+        register_setting('nanimade_shiprocket_settings', 'nanimade_shiprocket_enabled');
+        register_setting('nanimade_shiprocket_settings', 'nanimade_shiprocket_email');
+        register_setting('nanimade_shiprocket_settings', 'nanimade_shiprocket_password');
+        register_setting('nanimade_shipping_settings', 'nanimade_pickup_address');
+        register_setting('nanimade_shipping_settings', 'nanimade_pickup_pincode');
+        register_setting('nanimade_shipping_settings', 'nanimade_pickup_phone');
+        register_setting('nanimade_shipping_settings', 'nanimade_default_weight');
+        register_setting('nanimade_courier_settings', 'nanimade_couriers');
+        register_setting('nanimade_courier_settings', 'nanimade_auto_assign_courier');
+        register_setting('nanimade_tracking_settings', 'nanimade_sms_tracking');
+        register_setting('nanimade_tracking_settings', 'nanimade_email_tracking');
     }
     
     /**

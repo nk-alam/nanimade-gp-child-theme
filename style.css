@@ -490,3 +490,209 @@ body {
 .woocommerce-MyAccount-navigation li.woocommerce-MyAccount-navigation-link--downloads {
   display: none;
 }
+
+/* Enhanced Product Display */
+.woocommerce ul.products li.product {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: var(--transition);
+    margin-bottom: 30px;
+}
+
+.woocommerce ul.products li.product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.woocommerce ul.products li.product .woocommerce-loop-product__link {
+    display: block;
+    text-decoration: none;
+}
+
+.woocommerce ul.products li.product img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.woocommerce ul.products li.product:hover img {
+    transform: scale(1.05);
+}
+
+.woocommerce ul.products li.product .woocommerce-loop-product__title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 15px;
+    color: var(--text-color);
+}
+
+.woocommerce ul.products li.product .price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0 15px 15px;
+}
+
+.woocommerce ul.products li.product .button {
+    margin: 15px;
+    width: calc(100% - 30px);
+}
+
+/* Checkout Enhancements */
+.woocommerce-checkout {
+    background: var(--light-bg);
+    padding: 30px 0;
+}
+
+.woocommerce-checkout .woocommerce {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: var(--shadow);
+}
+
+/* Cart Page Enhancements */
+.woocommerce-cart {
+    background: var(--light-bg);
+    padding: 30px 0;
+}
+
+.woocommerce-cart .woocommerce {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: var(--shadow);
+}
+
+/* Single Product Enhancements */
+.single-product .product {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+}
+
+.single-product .woocommerce-product-gallery {
+    margin-bottom: 30px;
+}
+
+.single-product .summary {
+    padding-left: 30px;
+}
+
+/* Spice Level Indicator */
+.spice-level-indicator {
+    margin: 15px 0;
+}
+
+.spice-level-mild {
+    background: #4caf50;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.spice-level-medium {
+    background: #ff9800;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.spice-level-hot {
+    background: #f44336;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.spice-level-extra_hot {
+    background: #d32f2f;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Success and Error States */
+.woocommerce-message,
+.woocommerce-info {
+    background: #e8f5e8;
+    color: #2e7d32;
+    border-left: 4px solid #4caf50;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+}
+
+.woocommerce-error {
+    background: #ffebee;
+    color: #c62828;
+    border-left: 4px solid #f44336;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+}
+
+/* Loading Button States */
+.button.loading {
+    position: relative;
+    color: transparent;
+}
+
+.button.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
+    border: 2px solid white;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.button.success {
+    background: #4caf50 !important;
+    animation: successPulse 0.6s ease-in-out;
+}
+
+/* Quantity Input Styling */
+.woocommerce .quantity input.qty {
+    width: 60px;
+    text-align: center;
+    border: 2px solid #e9ecef;
+    border-radius: var(--border-radius);
+    padding: 8px;
+}
+
+/* Cart Count Badge */
+.cart-count {
+    background: var(--accent-color);
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    min-width: 18px;
+    text-align: center;
+}
+
+.cart-count.pulse {
+    animation: pulse 0.6s ease-in-out;
+}

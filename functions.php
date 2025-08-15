@@ -17,13 +17,29 @@ function nanimade_enqueue_styles() {
     wp_enqueue_style('generatepress-style', get_template_directory_uri() . '/style.css');
     
     // Child theme style
-    wp_enqueue_style('nanimade-child-style', get_stylesheet_directory_uri() . '/style.css', array('generatepress-style'));
+    wp_enqueue_style('nanimade-child-style', get_stylesheet_directory_uri() . '/style.css', array('generatepress-style'), '1.0.0');
     
     // Google Fonts
     wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     
     // Chart.js for analytics
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js', array(), '3.9.1', true);
+    
+    // Enhanced checkout styles and scripts
+    if (is_checkout()) {
+        wp_enqueue_style('nanimade-checkout', get_stylesheet_directory_uri() . '/assets/css/enhanced-checkout.css', array(), '1.0.0');
+        wp_enqueue_script('nanimade-checkout-js', get_stylesheet_directory_uri() . '/assets/js/enhanced-checkout.js', array('jquery'), '1.0.0', true);
+        
+        wp_localize_script('nanimade-checkout-js', 'nanimade_checkout', array(
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('nanimade_checkout_nonce'),
+            'currency' => get_woocommerce_currency_symbol(),
+            'is_logged_in' => is_user_logged_in(),
+            'user_email' => wp_get_current_user()->user_email ?? '',
+            'user_first_name' => wp_get_current_user()->first_name ?? '',
+            'user_last_name' => wp_get_current_user()->last_name ?? ''
+        ));
+    }
     
     // Custom JavaScript
     wp_enqueue_script('nanimade-custom-js', get_stylesheet_directory_uri() . '/assets/js/custom.js', array('jquery'), '1.0.0', true);

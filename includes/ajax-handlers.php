@@ -438,3 +438,253 @@ function nanimade_remove_from_wishlist_ajax() {
     }
 }
 add_action('wp_ajax_nanimade_remove_from_wishlist', 'nanimade_remove_from_wishlist_ajax');
+
+/**
+ * AJAX handler for getting Shiprocket tracking data
+ */
+function nanimade_get_shiprocket_tracking_ajax() {
+    check_ajax_referer('nanimade_checkout_nonce', 'nonce');
+    
+    $tracking_number = sanitize_text_field($_POST['tracking_number']);
+    $order_id = intval($_POST['order_id']);
+    
+    if (empty($tracking_number)) {
+        wp_send_json_error('Tracking number required');
+    }
+    
+    // Get tracking data from Shiprocket
+    $tracking_data = nanimade_get_shiprocket_tracking_data($tracking_number);
+    
+    if ($tracking_data) {
+        wp_send_json_success($tracking_data);
+    } else {
+        wp_send_json_error('Unable to fetch tracking information');
+    }
+}
+add_action('wp_ajax_nanimade_get_tracking', 'nanimade_get_shiprocket_tracking_ajax');
+add_action('wp_ajax_nopriv_nanimade_get_tracking', 'nanimade_get_shiprocket_tracking_ajax');
+
+/**
+ * Get Shiprocket tracking data
+ */
+function nanimade_get_shiprocket_tracking_data($tracking_number) {
+    $token = get_transient('shiprocket_token');
+    
+    if (!$token) {
+        $email = get_option('nanimade_shiprocket_email');
+        $password = get_option('nanimade_shiprocket_password');
+        
+        if (empty($email) || empty($password)) {
+            return false;
+        }
+        
+        $response = wp_remote_post('https://apiv2.shiprocket.in/v1/external/auth/login', array(
+            'headers' => array('Content-Type' => 'application/json'),
+            'body' => json_encode(array(
+                'email' => $email,
+                'password' => $password
+            ))
+        ));
+        
+        if (!is_wp_error($response)) {
+            $body = json_decode(wp_remote_retrieve_body($response), true);
+            if (isset($body['token'])) {
+                $token = $body['token'];
+                set_transient('shiprocket_token', $token, 3600);
+            }
+        }
+    }
+    
+    if ($token) {
+        $response = wp_remote_get('https://apiv2.shiprocket.in/v1/external/courier/track/shipment/' . $tracking_number, array(
+            'headers' => array(
+                'Authorization' => 'Bearer ' . $token
+            )
+        ));
+        
+        if (!is_wp_error($response)) {
+            $body = json_decode(wp_remote_retrieve_body($response), true);
+            return $body;
+        }
+    }
+    
+    return false;
+}
+
+/**
+ * AJAX handler for testing Shiprocket connection
+ */
+function nanimade_test_shiprocket_connection_ajax() {
+    check_ajax_referer('nanimade_test_nonce', 'nonce');
+    
+    if (!current_user_can('manage_options')) {
+        wp_send_json_error('Insufficient permissions');
+    }
+    
+    $email = get_option('nanimade_shiprocket_email');
+    $password = get_option('nanimade_shiprocket_password');
+    
+    if (empty($email) || empty($password)) {
+        wp_send_json_error('Please configure Shiprocket credentials first');
+    }
+    
+    $response = wp_remote_post('https://apiv2.shiprocket.in/v1/external/auth/login', array(
+        'headers' => array('Content-Type' => 'application/json'),
+        'body' => json_encode(array(
+            'email' => $email,
+            'password' => $password
+        ))
+    ));
+    
+    if (is_wp_error($response)) {
+        wp_send_json_error('Network error: ' . $response->get_error_message());
+    }
+    
+    $body = json_decode(wp_remote_retrieve_body($response), true);
+    
+    if (isset($body['token'])) {
+        set_transient('shiprocket_token', $body['token'], 3600);
+        wp_send_json_success(array('token' => $body['token']));
+    } else {
+        wp_send_json_error('Invalid credentials or API error');
+    }
+}
+add_action('wp_ajax_nanimade_test_shiprocket_connection', 'nanimade_test_shiprocket_connection_ajax');
+
+/**
+ * AJAX handler for getting analytics data
+ */
+function nanimade_get_analytics_data_ajax() {
+    check_ajax_referer('nanimade_analytics_nonce', 'nonce');
+    
+    if (!current_user_can('manage_woocommerce')) {
+        wp_send_json_error('Insufficient permissions');
+    }
+    
+    $date_range = intval($_POST['date_range']);
+    $start_date = sanitize_text_field($_POST['start_date']);
+    $end_date = sanitize_text_field($_POST['end_date']);
+    
+    // Calculate date range
+    if ($date_range === 'custom' && $start_date && $end_date) {
+        $start = $start_date;
+        $end = $end_date;
+    } else {
+        $end = current_time('Y-m-d');
+        $start = date('Y-m-d', strtotime("-{$date_range} days"));
+    }
+    
+    // Get analytics data
+    $analytics_data = array(
+        'metrics' => nanimade_get_metrics($start, $end),
+        'charts' => nanimade_get_chart_data_admin($start, $end),
+        'activity' => nanimade_get_recent_activity()
+    );
+    
+    wp_send_json_success($analytics_data);
+}
+add_action('wp_ajax_nanimade_get_analytics', 'nanimade_get_analytics_data_ajax');
+
+/**
+ * Get metrics for analytics
+ */
+function nanimade_get_metrics($start_date, $end_date) {
+    $orders = wc_get_orders(array(
+        'date_created' => $start_date . '...' . $end_date,
+        'status' => array('completed', 'processing'),
+        'limit' => -1
+    ));
+    
+    $revenue = 0;
+    $order_count = count($orders);
+    $products_sold = 0;
+    
+    foreach ($orders as $order) {
+        $revenue += $order->get_total();
+        $products_sold += $order->get_item_count();
+    }
+    
+    // Get new customers
+    $customers = get_users(array(
+        'role' => 'customer',
+        'date_query' => array(
+            array(
+                'after' => $start_date,
+                'before' => $end_date,
+                'inclusive' => true
+            )
+        )
+    ));
+    
+    return array(
+        'revenue' => $revenue,
+        'orders' => $order_count,
+        'customers' => count($customers),
+        'products' => $products_sold,
+        'revenue_change' => 15.5, // Calculate actual change
+        'orders_change' => 8.2,
+        'customers_change' => 12.1,
+        'products_change' => 6.8
+    );
+}
+
+/**
+ * Get chart data for admin analytics
+ */
+function nanimade_get_chart_data_admin($start_date, $end_date) {
+    // Generate sample data - replace with actual data
+    return array(
+        'trend' => array(
+            'labels' => array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'),
+            'revenue' => array(12000, 15000, 18000, 22000, 25000, 28000)
+        ),
+        'products' => array(
+            'labels' => array('Mango Pickle', 'Lemon Pickle', 'Mixed Pickle', 'Garlic Pickle'),
+            'data' => array(35, 25, 20, 20)
+        ),
+        'category' => array(
+            'labels' => array('Sweet', 'Spicy', 'Tangy', 'Mixed'),
+            'data' => array(45, 30, 15, 10)
+        ),
+        'demographics' => array(
+            'labels' => array('18-25', '26-35', '36-45', '45+'),
+            'data' => array(20, 35, 30, 15)
+        ),
+        'status' => array(
+            'labels' => array('Completed', 'Processing', 'Shipped', 'Cancelled'),
+            'data' => array(60, 25, 10, 5)
+        ),
+        'payment' => array(
+            'labels' => array('COD', 'Online', 'UPI', 'Card'),
+            'data' => array(40, 30, 20, 10)
+        )
+    );
+}
+
+/**
+ * Get recent activity
+ */
+function nanimade_get_recent_activity() {
+    return array(
+        array(
+            'icon' => '📦',
+            'title' => 'New order #1234 received',
+            'time' => '2 minutes ago'
+        ),
+        array(
+            'icon' => '🚚',
+            'title' => 'Order #1233 shipped',
+            'time' => '15 minutes ago'
+        ),
+        array(
+            'icon' => '👤',
+            'title' => 'New customer registered',
+            'time' => '1 hour ago'
+        ),
+        array(
+            'icon' => '💰',
+            'title' => 'Payment received for order #1232',
+            'time' => '2 hours ago'
+        )
+    );
+}

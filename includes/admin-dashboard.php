@@ -333,6 +333,12 @@ function nanimade_admin_scripts($hook) {
     if ($hook === 'index.php') {
         wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js', array(), '3.9.1', true);
         wp_enqueue_script('nanimade-admin-js', get_stylesheet_directory_uri() . '/assets/js/admin.js', array('jquery', 'chartjs'), '1.0.0', true);
+        
+        // Localize admin script
+        wp_localize_script('nanimade-admin-js', 'nanimade_admin', array(
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('nanimade_admin_nonce')
+        ));
     }
 }
 
