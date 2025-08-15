@@ -1,0 +1,780 @@
+/**
+ * Enhanced Checkout Styles for Nanimade Theme
+ * Modern, stylish checkout with animations
+ */
+
+/* Checkout Progress Indicator */
+.checkout-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #2d5a27, #8bc34a);
+    border-radius: 20px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: rgba(255,255,255,0.7);
+    transition: all 0.3s ease;
+    position: relative;
+    flex: 1;
+}
+
+.progress-step.active {
+    color: white;
+    transform: scale(1.1);
+}
+
+.progress-step.completed {
+    color: #4CAF50;
+}
+
+.step-icon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.progress-step.active .step-icon {
+    background: rgba(255,255,255,0.3);
+    transform: rotate(360deg);
+}
+
+.step-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Enhanced Order Summary */
+.enhanced-order-summary {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin: 20px 0;
+    border: 2px solid #f0f0f0;
+    transition: all 0.3s ease;
+}
+
+.enhanced-order-summary:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.summary-header {
+    background: linear-gradient(135deg, #2d5a27, #8bc34a);
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.summary-header h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.summary-toggle {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.summary-content {
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.order-items {
+    margin-bottom: 20px;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.order-item:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+}
+
+.item-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-name {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.item-price {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.item-quantity {
+    background: var(--primary-color);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    margin-left: 10px;
+}
+
+.order-totals {
+    border-top: 2px solid #e9ecef;
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.total-row.final {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    border-top: 1px solid #e9ecef;
+    padding-top: 10px;
+}
+
+.delivery-estimate {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 4px solid #2196f3;
+}
+
+.estimate-icon {
+    font-size: 1.5rem;
+    margin-right: 15px;
+}
+
+.estimate-text {
+    flex: 1;
+}
+
+.estimate-text strong {
+    display: block;
+    color: #1976d2;
+    margin-bottom: 5px;
+}
+
+.delivery-date {
+    color: #333;
+    font-weight: 600;
+}
+
+/* Order Tracking Widget */
+.order-tracking-widget {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin: 20px 0;
+    border: 2px solid #f0f0f0;
+}
+
+.tracking-header {
+    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.tracking-header h4 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.tracking-toggle {
+    font-size: 1.3rem;
+    transition: transform 0.3s ease;
+}
+
+.tracking-content {
+    padding: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.tracking-status {
+    position: relative;
+}
+
+.status-step {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    position: relative;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.status-step.active {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.status-step.completed {
+    opacity: 1;
+}
+
+.status-icon {
+    font-size: 1.5rem;
+    margin-right: 15px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.status-step.active .status-icon {
+    background: var(--primary-color);
+    color: white;
+    animation: pulse 2s infinite;
+}
+
+.status-step.completed .status-icon {
+    background: #4CAF50;
+    color: white;
+}
+
+.status-text {
+    flex: 1;
+}
+
+.status-text strong {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.status-text span {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Payment Methods Enhancement */
+.wc_payment_methods {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.wc_payment_method {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px 0;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.wc_payment_method:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.wc_payment_method input[type="radio"]:checked + label {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Checkout Form Enhancements */
+.woocommerce-checkout .form-row {
+    margin-bottom: 20px;
+}
+
+.woocommerce-checkout input[type="text"],
+.woocommerce-checkout input[type="email"],
+.woocommerce-checkout input[type="tel"],
+.woocommerce-checkout textarea,
+.woocommerce-checkout select {
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.woocommerce-checkout input:focus,
+.woocommerce-checkout textarea:focus,
+.woocommerce-checkout select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
+    transform: translateY(-2px);
+}
+
+.woocommerce-checkout label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Pickup Option Styling */
+.pickup-option {
+    background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+    border: 2px solid #ff9800;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+.pickup-option input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.pickup-option label {
+    color: #e65100;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Order Confirmation Enhancements */
+.order-confirmation-enhanced {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    padding: 30px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.confirmation-header {
+    margin-bottom: 30px;
+}
+
+.confirmation-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    animation: bounce 2s infinite;
+}
+
+.confirmation-header h2 {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.confirmation-header p {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.order-details-enhanced {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.detail-card {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.detail-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.card-icon {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.card-content h4 {
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.card-content p {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Tracking Timeline */
+.tracking-section {
+    margin: 30px 0;
+}
+
+.tracking-section h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+}
+
+.tracking-timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.timeline-step {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    position: relative;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.timeline-step.completed,
+.timeline-step.active {
+    opacity: 1;
+}
+
+.timeline-step.active {
+    transform: scale(1.05);
+}
+
+.step-marker {
+    font-size: 2rem;
+    margin-right: 20px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.timeline-step.completed .step-marker {
+    background: #4CAF50;
+    color: white;
+}
+
+.timeline-step.active .step-marker {
+    background: var(--primary-color);
+    color: white;
+    animation: pulse 2s infinite;
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-content h4 {
+    color: #333;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.step-content p {
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.step-time {
+    color: #999;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+/* Next Steps */
+.next-steps {
+    margin: 30px 0;
+}
+
+.next-steps h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.step-item {
+    background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.step-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.step-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.step-item h4 {
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.step-item p {
+    color: #666;
+    margin: 0;
+}
+
+/* Shiprocket Tracking */
+.shiprocket-tracking {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    padding: 25px;
+    margin: 20px 0;
+    border: 2px solid #f0f0f0;
+}
+
+.tracking-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.tracking-header h3 {
+    color: #333;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.tracking-number {
+    background: var(--primary-color);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.tracking-actions {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.track-button,
+.refresh-tracking {
+    background: linear-gradient(135deg, #2196f3, #1976d2);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.track-button:hover,
+.refresh-tracking:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+}
+
+.refresh-tracking {
+    background: linear-gradient(135deg, #ff9800, #f57c00);
+}
+
+.refresh-tracking:hover {
+    box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+}
+
+.tracking-details {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    min-height: 100px;
+}
+
+.loading {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+
+/* Animations */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .checkout-progress {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .progress-step {
+        flex-direction: row;
+        width: 100%;
+    }
+    
+    .step-icon {
+        margin-right: 15px;
+        margin-bottom: 0;
+    }
+    
+    .order-details-enhanced {
+        grid-template-columns: 1fr;
+    }
+    
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tracking-actions {
+        flex-direction: column;
+    }
+    
+    .timeline-step {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .step-marker {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+}
+
+/* Loading States */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Success States */
+.success-animation {
+    animation: successPulse 0.6s ease-in-out;
+}
+
+@keyframes successPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Error States */
+.error-message {
+    background: #ffebee;
+    color: #c62828;
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 4px solid #f44336;
+    margin: 10px 0;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
